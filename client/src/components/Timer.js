@@ -57,33 +57,13 @@ const Timer = () => {
     dispatch(pomodoroActions.resetData());
   };
 
-  const submitDataToNotionDuringSession = () => {
-    dispatch(pomodoroActions.endSession());
-    // dispatch(pomodoroActions.setIsDataSend({ state: true }));
-    // fetch("http://localhost:4000/submitDataToNotion", {
-    //   method: "post",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(storeData),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("Success!", data);
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error", error);
-    //   });
-    // dispatch(pomodoroActions.setIsDataSend({ state: true }));
-    // dispatch(pomodoroActions.resetData());
-  };
-
   return (
     <>
-      {/* <div className="flex-col content-center mx-80 my-10"> */}
-      <div className="flex-col justify-center items-center mx-80 my-10 bg-gray-100">
-        <div className="text-9xl text-white p-10 bg-red-500 shadow-lg shadow-red-500/50 rounded-lg flex ">
+      <div className="flex-col content-center w-7/12 my-10 sm:ml-40 md:ml-60 lg:ml-80">
+        {/* <div className="flex-col content-center lg:w-100 lg:max-h-4"> */}
+        {/* <div className="flex-col justify-center items-center  bg-gray-100"> */}
+        {/* <div className="flex-col justify-center items-center"> */}
+        <div className="flex content-center text-9xl text-white p-10 bg-red-500 shadow-lg shadow-red-500/50 rounded-lg my-5">
           {storeDisplayMinutes < 10
             ? "0" + storeDisplayMinutes
             : storeDisplayMinutes}
@@ -92,7 +72,7 @@ const Timer = () => {
             ? "0" + storeDisplaySeconds
             : storeDisplaySeconds}
         </div>
-        <div className="flex align-items-center">
+        <div className="flex align-items-center justify-center items-center">
           {!storeIsSession && !storeIsBreak && (
             <button
               className="text-3xl bg-red-500 hover:bg-green-700 rounded-full p-5 w-5/12 "
@@ -127,8 +107,8 @@ const Timer = () => {
                   STOP
                 </button>
                 <button
-                  className="text-5xl hover:bg-purple-400"
-                  onClick={() => submitDataToNotionDuringSession()}
+                  className="text-5xl hover:bg-purple-900"
+                  onClick={() => dispatch(pomodoroActions.endSession())}
                 >
                   <BsSkipEndFill />
                 </button>

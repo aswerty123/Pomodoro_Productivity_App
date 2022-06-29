@@ -4,8 +4,8 @@ import PomodoroStateViewer from "../components/PomodoroStateViewer";
 
 const Dashboard = () => {
   return (
-    <h2 className="flex-auto text-xl font-bold underline">
-      <PomodoroStateViewer />
+    <h2 className="flex-auto text-xl font-bold">
+      {/* <PomodoroStateViewer /> */}
       <ListOfSessions />
     </h2>
   );

@@ -8,6 +8,8 @@ const pomodoroSlice = createSlice({
     isPause: false,
     isBreak: false,
     isSendingData: false,
+    isModal: false,
+    modalData: { note: "", startTime: "", endTime: "", durationSecs: "" },
     pagesObj: [],
 
     displayMinutes: 25,
@@ -15,7 +17,7 @@ const pomodoroSlice = createSlice({
     setDuration: 25,
     setBreak: 5,
     data: {
-      name: "....",
+      name: "",
       note: "",
       startTime: "",
       endTime: "",
@@ -94,8 +96,11 @@ const pomodoroSlice = createSlice({
       }
     },
     //=============================== data reducers
-    inputdata(state, action) {
-      state.data.note = action.payload.userData;
+    inputDataName(state, action) {
+      state.data.name = action.payload.name;
+    },
+    inputDataNote(state, action) {
+      state.data.note = action.payload.note;
     },
     resetData(state) {
       state.data = {
@@ -115,6 +120,23 @@ const pomodoroSlice = createSlice({
 
     setIsDataSend(state, action) {
       state.isSendingData = action.payload.state;
+    },
+
+    //================================ display modal
+    displayErrorModal(state, action) {
+      // console.log(
+      //   state.pagesObj[action.payload.index].properties.Notes.rich_text[0]
+      //     .plain_text
+      // );
+      state.modalData.note =
+        state.pagesObj[
+          action.payload.index
+        ].properties.Notes.rich_text[0].plain_text;
+      state.isModal = true;
+    },
+
+    closeModal(state) {
+      state.isModal = false;
     },
   },
 });
