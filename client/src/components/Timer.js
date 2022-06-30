@@ -59,11 +59,12 @@ const Timer = () => {
 
   return (
     <>
-      <div className="flex-col content-center w-7/12 my-10 sm:ml-40 md:ml-60 lg:ml-80">
+      <div className="flex-col content-center w-full">
+        {/* <div className="flex-col content-center w-7/12 my-10 sm:ml-40 md:ml-60 lg:ml-80"> */}
         {/* <div className="flex-col content-center lg:w-100 lg:max-h-4"> */}
         {/* <div className="flex-col justify-center items-center  bg-gray-100"> */}
         {/* <div className="flex-col justify-center items-center"> */}
-        <div className="flex content-center text-9xl text-white p-10 bg-red-500 shadow-lg shadow-red-500/50 rounded-lg my-5">
+        <div className="flex content-center text-9xl text-white p-10 mx-20 bg-red-500 shadow-lg shadow-red-500/50 rounded-lg my-5">
           {storeDisplayMinutes < 10
             ? "0" + storeDisplayMinutes
             : storeDisplayMinutes}
@@ -75,7 +76,7 @@ const Timer = () => {
         <div className="flex align-items-center justify-center items-center">
           {!storeIsSession && !storeIsBreak && (
             <button
-              className="text-3xl bg-red-500 hover:bg-green-700 rounded-full p-5 w-5/12 "
+              className="text-3xl bg-red-500  hover:bg-green-700 rounded-full p-5 w-5/12 "
               onClick={() =>
                 storeIsPause
                   ? dispatch(pomodoroActions.pause())
@@ -107,7 +108,7 @@ const Timer = () => {
                   STOP
                 </button>
                 <button
-                  className="text-5xl hover:bg-purple-900"
+                  className="text-5xl"
                   onClick={() => dispatch(pomodoroActions.endSession())}
                 >
                   <BsSkipEndFill />
@@ -144,8 +145,9 @@ const Timer = () => {
               </>
             ))}
         </div>
+
+        <Form />
       </div>
-      <Form />
       {/* <button onClick={() => submitDataToNotionAfterSession()}>Submit To Notion</button> */}
     </>
   );

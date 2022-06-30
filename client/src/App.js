@@ -14,7 +14,7 @@ function App() {
     <div className={storeIsSession ? "bg-red-300" : "bg-blue-300"}>
       <div className="flex">
         <NavBar />
-        <div>
+        <div className="flex-auto">
           <Routes>
             <Route path="/" element={<Navigate replace to="/dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />

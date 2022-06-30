@@ -17,21 +17,21 @@ const Form = (props) => {
 
   return (
     <>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center ">
         <a
           href="https://www.notion.so/03f86a2e36c94b8897214ce91641ec0c?v=590189a6433d48e5b23f8e91e8597714"
           target="_blank"
           rel="noreferrer"
         >
           {" "}
-          <button className=" bg-gray-700 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded text-md">
+          <button className=" bg-gray-700 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded text-md my-5">
             Check Out the notion Database
           </button>
         </a>
       </div>
       {/* <div className="flex justify-center items-center h-screen mx-auto bg-gray-100"> */}
-      <div className="flex justify-center items-center ">
-        <form action="#" className="w-full md:w-3/6 lg:w-3/4  p-4">
+      <div className="flex justify-center items-center">
+        <form action="#" className="w-full p-4">
           <div className="p-3">
             <input
               className="block appearance-none placeholder-gray-500 placeholder-opacity-100 border border-light-blue-400 rounded-md w-full py-3 px-4 text-gray-700 leading-5 focus:outline-none focus:ring-2 focus:ring-light-blue-300"

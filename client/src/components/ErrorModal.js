@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import { AiOutlineClose } from "react-icons/ai";
 import styles from "./ErrorModal.module.css";
 
 const OverLay = (props) => {
@@ -14,7 +15,9 @@ const OverLay = (props) => {
           <p>{props.message}</p>
         </div>
         <footer className={styles.actions}>
-          <button onClick={props.okayClicked}>Okay</button>
+          <button onClick={props.okayClicked}>
+            <AiOutlineClose className="hover:text-red-600" size={70} />
+          </button>
         </footer>
       </div>
     </div>

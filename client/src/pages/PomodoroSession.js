@@ -10,9 +10,9 @@ const PomodorosSession = () => {
   // const storeIsBreak = useSelector((state) => state.pomodoro.isBreak);
   return (
     <>
-      <div className="flex-col justify-center items-center ">
+      <div className="flex-col justify-center items-center grid ">
         <Timer />
-        <PomodoroStateViewer />
+        {/* <PomodoroStateViewer /> */}
       </div>
     </>
   );

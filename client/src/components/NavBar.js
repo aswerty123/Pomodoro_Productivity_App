@@ -7,10 +7,13 @@ const NavBar = () => {
   return (
     <div className="flex bg-red-500 flex-col w-fit h-screen ">
       <NavLink to="/dashboard">
-        <AiFillDashboard className="text-red-900" size={70} />
+        <AiFillDashboard
+          className="text-red-400 hover:text-red-900"
+          size={70}
+        />
       </NavLink>
       <NavLink to="/pomodoro-session">
-        <GiTomato className="text-red-900" size={70} />
+        <GiTomato className="text-red-400 hover:text-red-900" size={70} />
       </NavLink>
     </div>
   );
