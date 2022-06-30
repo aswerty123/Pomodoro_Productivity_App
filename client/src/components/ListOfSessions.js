@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { pomodoroActions } from "../store/pomodoro";
 import DisplayList from "./DisplayList";
-import { GiTomato } from "react-icons/gi";
 
 const ListOfSessions = () => {
   const dispatch = useDispatch();
@@ -11,8 +10,9 @@ const ListOfSessions = () => {
   );
   const storeIsBreak = useSelector((state) => state.pomodoro.isBreak);
   const storePagesObj = useSelector((state) => state.pomodoro.pagesObj);
+  const storeRefreshList = useSelector((state) => state.pomodoro.refreshList);
 
-  const [Obj, setObj] = useState({});
+  // const [Obj, setObj] = useState({});
   const [error, setError] = useState(null);
 
   // function notionPropertiesById(properties) {
@@ -33,7 +33,7 @@ const ListOfSessions = () => {
     return () => {
       controller.abort();
     };
-  }, [storeIsBreak]);
+  }, [storeIsBreak, storeRefreshList]);
 
   //=============================== fetchpost function to fetch data and get error message
 
@@ -70,8 +70,9 @@ const ListOfSessions = () => {
       {/* {!storeIsSendingData && JSON.stringify(storePagesObj)} */}
       {!storeIsSendingData && <DisplayList />}
       {storeIsSendingData && (
-        <div className="flex text-md font-bold justify-content align-baseline ">
-          <img src="pngegg.png" className="animate-spin" />
+        <div className="flex text-sm font-bold justify-content align-baseline ">
+          {/* <img src="pngegg.png" className="animate-spin" /> */}
+          Loading...
         </div>
       )}
     </div>

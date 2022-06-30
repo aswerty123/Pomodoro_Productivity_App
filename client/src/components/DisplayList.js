@@ -4,7 +4,7 @@ import { pomodoroActions } from "../store/pomodoro";
 import ErrorModal from "./ErrorModal";
 import dayjs from "dayjs";
 
-const DisplayList = () => {
+const DisplayList = (props) => {
   const dispatch = useDispatch();
   const storePagesObj = useSelector((state) => state.pomodoro.pagesObj);
   const storeModalDataNote = useSelector(
@@ -26,6 +26,29 @@ const DisplayList = () => {
     // console.log(storePagesObj[i].properties.Notes.rich_text[0].plain_text);
 
     dispatch(pomodoroActions.displayErrorModal({ index: i }));
+  };
+
+  const deleteDataFromNotion = (key) => {
+    // dispatch(pomodoroActions.setIsDataSend({ state: true }));
+
+    console.log(key);
+    fetch("http://localhost:4000/deleteDataFromNotion", {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ pageID: key }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success!", data);
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
+    // dispatch(pomodoroActions.setIsDataSend({ state: false }));
+    dispatch(pomodoroActions.toggleRefreshList());
   };
 
   return (
@@ -61,18 +84,18 @@ const DisplayList = () => {
           ))}
         </ul> */}
       </div>
-      <div className="p-4 w-96 rounded-lg border shadow-md bg-red-500 border-red-700">
+      <div className="p-4 max-w-[35rem] rounded-lg border shadow-md bg-red-500 border-red-700">
         <div className="flex justify-between items-center mb-4">
           <h5 className="text-4xl   text-white">List of Sessions</h5>
-          <a
+          {/* <a
             href="#"
             className="text-sm font-medium text-white hover:underline "
           >
             View all
-          </a>
+          </a> */}
         </div>
-        <div className="flow-root">
-          <ul role="list" className="divide-y divide-gray-200 ">
+        <div>
+          <ul className="divide-y divide-gray-200 ">
             {storePagesObj.map((page, i) => (
               <li className="py-3 " key={page.id}>
                 <div className="flex items-center space-x-4">
@@ -91,14 +114,40 @@ const DisplayList = () => {
                       )}
                     </p>
                   </div>
-                  <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                  <div
+                    className="inline-flex rounded-md shadow-sm"
+                    role="group"
+                  >
+                    <button
+                      type="button"
+                      className="py-2 px-4 text-sm font-medium text-gray-900 bg-red-700 rounded-l-full border border-gray-200 hover:bg-gray-100 hover:text-red-900"
+                      onClick={() => deleteDataFromNotion(page.id)}
+                    >
+                      Delete
+                    </button>
+
+                    <button
+                      type="button"
+                      className="py-2 px-4 text-sm font-medium text-gray-900 bg-blue-700 rounded-r-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 "
+                      onClick={() => handleMoreInfo(i)}
+                    >
+                      Info
+                    </button>
+                  </div>
+                  {/* <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                    <button
+                      onClick={() => deleteDataFromNotion(page.id)}
+                      className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded-full"
+                    >
+                      Delete Note
+                    </button>
                     <button
                       onClick={() => handleMoreInfo(i)}
                       className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded-full"
                     >
                       More Info
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </li>
             ))}

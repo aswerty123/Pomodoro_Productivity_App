@@ -11,6 +11,8 @@ const pomodoroSlice = createSlice({
     isModal: false,
     modalData: { note: "", startTime: "", endTime: "", durationSecs: "" },
     pagesObj: [],
+    refreshList: true,
+    timerSpeed: 1000,
 
     displayMinutes: 25,
     displaySeconds: 0,
@@ -122,6 +124,10 @@ const pomodoroSlice = createSlice({
       state.isSendingData = action.payload.state;
     },
 
+    toggleRefreshList(state) {
+      state.refreshList = !state.refreshList;
+    },
+
     //================================ display modal
     displayErrorModal(state, action) {
       // console.log(
@@ -137,6 +143,10 @@ const pomodoroSlice = createSlice({
 
     closeModal(state) {
       state.isModal = false;
+    },
+    //=================================== Set Speed
+    setSpeed(state, action) {
+      state.timerSpeed = action.payload.speed;
     },
   },
 });

@@ -1,12 +1,18 @@
 // import React, { useState } from "react";
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { pomodoroActions } from "../store/pomodoro";
+import {
+  BsFillPlayFill,
+  BsSkipForwardFill,
+  BsFillSkipEndFill,
+} from "react-icons/bs";
 
 const Form = (props) => {
   const dispatch = useDispatch();
   const storeDataNote = useSelector((state) => state.pomodoro.data.note);
   const storeDataName = useSelector((state) => state.pomodoro.data.name);
+  const storeTimerSpeed = useSelector((state) => state.pomodoro.timerSpeed);
   //   const [userInput, setUserInput] = useState("");
   //   const handleSubmit = (event) => {
   //     event.preventDefault();
@@ -17,18 +23,6 @@ const Form = (props) => {
 
   return (
     <>
-      <div className="flex justify-center items-center ">
-        <a
-          href="https://www.notion.so/03f86a2e36c94b8897214ce91641ec0c?v=590189a6433d48e5b23f8e91e8597714"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {" "}
-          <button className=" bg-gray-700 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded text-md my-5">
-            Check Out the notion Database
-          </button>
-        </a>
-      </div>
       {/* <div className="flex justify-center items-center h-screen mx-auto bg-gray-100"> */}
       <div className="flex justify-center items-center">
         <form action="#" className="w-full p-4">
@@ -63,6 +57,38 @@ const Form = (props) => {
             ></textarea>
           </div>
         </form>
+      </div>
+      <div className="flex justify-center items-center border-2 ">
+        <a
+          href="https://www.notion.so/03f86a2e36c94b8897214ce91641ec0c?v=590189a6433d48e5b23f8e91e8597714"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {" "}
+          <button className=" bg-gray-700 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded text-md my-5">
+            Check Out the notion Database
+          </button>
+        </a>
+        <button className=" hover:text-gray-900 text-white font-bold py-3 px-4 rounded text-md my-5">
+          {storeTimerSpeed === 1000 ? (
+            <BsFillPlayFill
+              onClick={() => dispatch(pomodoroActions.setSpeed({ speed: 10 }))}
+              size={70}
+            />
+          ) : storeTimerSpeed === 10 ? (
+            <BsFillSkipEndFill
+              onClick={() => dispatch(pomodoroActions.setSpeed({ speed: 1 }))}
+              size={70}
+            />
+          ) : storeTimerSpeed === 1 ? (
+            <BsSkipForwardFill
+              onClick={() =>
+                dispatch(pomodoroActions.setSpeed({ speed: 1000 }))
+              }
+              size={70}
+            />
+          ) : null}
+        </button>
       </div>
       {/* <form onSubmit={handleSubmit}> */}
       {/* <textarea

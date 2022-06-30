@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { BsSkipEndFill } from "react-icons/bs";
+import { BsFillStopwatchFill } from "react-icons/bs";
 
 import { useSelector, useDispatch } from "react-redux";
 import { pomodoroActions } from "../store/pomodoro";
@@ -19,6 +19,7 @@ const Timer = () => {
     (state) => state.pomodoro.displaySeconds
   );
   const storeData = useSelector((state) => state.pomodoro.data);
+  const storeTimerSpeed = useSelector((state) => state.pomodoro.timerSpeed);
 
   useEffect(() => {
     if (
@@ -30,10 +31,10 @@ const Timer = () => {
     ) {
       const intervalId = setInterval(() => {
         dispatch(pomodoroActions.decreaseTimer());
-      }, 1);
+      }, storeTimerSpeed);
       return () => clearInterval(intervalId);
     }
-  }, [storeIsBreak, storeIsSession, storeIsPause]);
+  }, [storeIsBreak, storeIsSession, storeIsPause, storeTimerSpeed]);
 
   const submitDataToNotionAfterSession = () => {
     dispatch(pomodoroActions.startBreak());
@@ -73,7 +74,7 @@ const Timer = () => {
             ? "0" + storeDisplaySeconds
             : storeDisplaySeconds}
         </div>
-        <div className="flex align-items-center justify-center items-center">
+        <div className="flex align-items-center justify-center items-center ">
           {!storeIsSession && !storeIsBreak && (
             <button
               className="text-3xl bg-red-500  hover:bg-green-700 rounded-full p-5 w-5/12 "
@@ -111,7 +112,10 @@ const Timer = () => {
                   className="text-5xl"
                   onClick={() => dispatch(pomodoroActions.endSession())}
                 >
-                  <BsSkipEndFill />
+                  <BsFillStopwatchFill
+                    className="hover:text-gray-900 text-white font-bold py-3 px-4 rounded text-md my-5"
+                    size={80}
+                  />
                 </button>
               </>
             ))}
@@ -140,7 +144,10 @@ const Timer = () => {
                   className="text-5xl "
                   onClick={() => dispatch(pomodoroActions.endBreak())}
                 >
-                  <BsSkipEndFill />
+                  <BsFillStopwatchFill
+                    className="hover:text-gray-900 text-white font-bold py-3 px-4 rounded text-md my-5"
+                    size={70}
+                  />
                 </button>
               </>
             ))}

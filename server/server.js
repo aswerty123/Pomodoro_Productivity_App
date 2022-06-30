@@ -95,6 +95,36 @@ app.get("/submitDataToNotion", async (req, res) => {
   res.send(notionPages);
 });
 
+app.post("/deleteDataFromNotion", jsonParser, async (req, res) => {
+  const pageId = req.body.pageID;
+
+  try {
+    const response = await notion.pages.update({
+      page_id: pageId,
+      archived: true,
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// app.get(async () => {
+//   const blockId = "9bc30ad4-9373-46a5-84ab-0a7845ee52e6";
+//   const response = await notion.blocks.delete({
+//     block_id: blockId,
+//   });
+//   console.log(response);
+// })();
+
+async function getDatabase() {
+  const response = await notion.databases.retrieve({
+    database_id: NOTION_DATABASE_ID,
+  });
+  console.log(response);
+}
+getDatabase();
+
 app.listen(PORT, HOST, () => {
   console.log(`starting proxy ${HOST} : ${PORT}`);
 });
