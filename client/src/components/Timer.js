@@ -20,6 +20,7 @@ const Timer = () => {
   );
   const storeData = useSelector((state) => state.pomodoro.data);
   const storeTimerSpeed = useSelector((state) => state.pomodoro.timerSpeed);
+  const storeRefreshList = useSelector((state) => state.pomodoro.refreshList);
 
   useEffect(() => {
     if (
@@ -106,15 +107,15 @@ const Timer = () => {
                   className="text-3xl bg-red-500 hover:bg-sky-700 rounded-full p-5 w-5/12"
                   onClick={() => dispatch(pomodoroActions.pause())}
                 >
-                  STOP
+                  PAUSE
                 </button>
                 <button
                   className="text-5xl"
                   onClick={() => dispatch(pomodoroActions.endSession())}
                 >
                   <BsFillStopwatchFill
-                    className="hover:text-gray-900 text-white font-bold py-3 px-4 rounded text-md my-5"
-                    size={80}
+                    className="hover:text-red-500 text-white font-bold rounded text-md mx-5"
+                    size={50}
                   />
                 </button>
               </>
@@ -138,15 +139,15 @@ const Timer = () => {
                   className="text-3xl bg-red-500 hover:bg-sky-700 rounded-full p-5 w-5/12"
                   onClick={() => dispatch(pomodoroActions.pause())}
                 >
-                  STOP
+                  PAUSE
                 </button>
                 <button
                   className="text-5xl "
                   onClick={() => dispatch(pomodoroActions.endBreak())}
                 >
                   <BsFillStopwatchFill
-                    className="hover:text-gray-900 text-white font-bold py-3 px-4 rounded text-md my-5"
-                    size={70}
+                    className="hover:text-red-500 text-white font-bold rounded text-md mx-5"
+                    size={50}
                   />
                 </button>
               </>

@@ -38,6 +38,7 @@ const ListOfSessions = () => {
   //=============================== fetchpost function to fetch data and get error message
 
   const fetchPost = async (url, signal) => {
+    console.log("fetching post");
     dispatch(pomodoroActions.setIsDataSend({ state: true }));
     setError(null);
 
@@ -56,9 +57,7 @@ const ListOfSessions = () => {
       // const date =0;
       // const duration =0;
 
-      const usefulObj = dispatch(
-        pomodoroActions.storeNotionObj({ notionObj: data.results })
-      );
+      dispatch(pomodoroActions.storeNotionObj({ notionObj: data.results }));
     } catch (err) {
       setError(err.message);
     }

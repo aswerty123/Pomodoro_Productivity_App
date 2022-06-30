@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { pomodoroActions } from "../store/pomodoro";
-import ErrorModal from "./ErrorModal";
+import MoreInfoModal from "./MoreInfoModal";
 import dayjs from "dayjs";
 
 const DisplayList = (props) => {
@@ -15,6 +15,8 @@ const DisplayList = (props) => {
   // const note = data.results[0].properties.Notes.rich_text[0].plain_text;
   // const date =0;
   // const duration =0;
+  const [inputDate, setInputDate] = useState("");
+  const [inputSum, setInputSum] = useState("");
 
   const handleModalOkay = () => {
     dispatch(pomodoroActions.closeModal());
@@ -25,13 +27,13 @@ const DisplayList = (props) => {
     // console.log(i);
     // console.log(storePagesObj[i].properties.Notes.rich_text[0].plain_text);
 
-    dispatch(pomodoroActions.displayErrorModal({ index: i }));
+    dispatch(pomodoroActions.displayMoreInfoModal({ index: i }));
   };
 
   const deleteDataFromNotion = (key) => {
-    // dispatch(pomodoroActions.setIsDataSend({ state: true }));
+    dispatch(pomodoroActions.setIsDataSend({ state: true }));
 
-    console.log(key);
+    console.log({ key });
     fetch("http://localhost:4000/deleteDataFromNotion", {
       method: "post",
       headers: {
@@ -40,49 +42,75 @@ const DisplayList = (props) => {
       },
       body: JSON.stringify({ pageID: key }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        dispatch(pomodoroActions.toggleRefreshList());
+        return response.json();
+      })
       .then((data) => {
         console.log("Success!", data);
       })
       .catch((error) => {
         console.log("Error", error);
       });
-    // dispatch(pomodoroActions.setIsDataSend({ state: false }));
-    dispatch(pomodoroActions.toggleRefreshList());
+    dispatch(pomodoroActions.setIsDataSend({ state: false }));
   };
+
+  const handleDateInput = (event) => {
+    // console.log(event.target.value);
+    setInputDate(event.target.value);
+  };
+
+  //calculate the sum of duration
+
+  useEffect(() => {
+    if (inputDate === "") {
+      let sum = 0;
+      storePagesObj.map((page, i) => {
+        // console.log(page.properties.Duration_in_Secs.number);
+        sum += page.properties.Duration_in_Secs.number;
+      });
+      setInputSum(sum);
+    } else {
+      let sum = 0;
+      storePagesObj.map((page, i) => {
+        if (
+          dayjs(page.properties.Date.date.start).format("YYYY-MM-DD") ===
+          inputDate
+        ) {
+          sum += page.properties.Duration_in_Secs.number;
+        }
+      });
+      setInputSum(sum);
+    }
+  }, [inputDate]);
 
   return (
     <>
+      {/* <h4>{JSON.stringify(thisState)}</h4> */}
       {storeIsModal && (
-        <ErrorModal
+        <MoreInfoModal
           title="Detailed Information"
-          message={storeModalDataNote}
           okayClicked={handleModalOkay}
-        ></ErrorModal>
+        ></MoreInfoModal>
       )}
 
-      <div className="flex ">
-        {/* <ul className="flex-col flex-wrap">
-          {storePagesObj.map((page, i) => (
-            <li
-              className="block p-1 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-red-500 dark:border-gray-700 dark:hover:bg-gray-700"
-              key={page.id}
-            >
-              <div className="flex-auto flex-wrap">
-                <div className="shadow bg-red-700 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded ">
-                  Title:{page.properties.Name.title[0].plain_text}{" "}
-                </div>
-
-                <button
-                  onClick={() => handleMoreInfo(i)}
-                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded-full"
-                >
-                  More Info
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul> */}
+      <div className="flex justify-between items-center m-4">
+        <input type="date" onChange={handleDateInput} className="m-5" />
+        <div
+          className={
+            inputDate === ""
+              ? "bg-blue-500 text-white font-bold py-2 px-4 rounded"
+              : inputSum / 60 / 60 > 5
+              ? "bg-green-500 text-white font-bold py-2 px-4 rounded"
+              : inputSum / 60 / 60 < 1
+              ? "bg-red-600 text-white font-bold py-2 px-4 rounded"
+              : "bg-yellow-400 text-white font-bold py-2 px-4 rounded"
+          }
+        >
+          Total Duration:{"   "}
+          {Math.round((inputSum / 60 / 60) * 100) / 100}
+          {"   "}Hrs
+        </div>
       </div>
       <div className="p-4 max-w-[35rem] rounded-lg border shadow-md bg-red-500 border-red-700">
         <div className="flex justify-between items-center mb-4">
@@ -94,63 +122,101 @@ const DisplayList = (props) => {
             View all
           </a> */}
         </div>
+        {/* state.modalData.date = dayjs(
+        state.pagesObj[action.payload.index].properties.Date.date.start
+      ).format("DD-MM-YYYY"); */}
         <div>
           <ul className="divide-y divide-gray-200 ">
-            {storePagesObj.map((page, i) => (
-              <li className="py-3 " key={page.id}>
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0"></div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                      <span className="text-lg text-bold text-red-900">
-                        Title:
-                      </span>
-                      {page.properties.Name.title[0].plain_text}
-                    </p>
-                    <p className="text-sm text-red-900 ">
-                      Date:{" "}
-                      {dayjs(page.properties.Date.date.start).format(
-                        "DD-MM-YYYY"
-                      )}
-                    </p>
-                  </div>
-                  <div
-                    className="inline-flex rounded-md shadow-sm"
-                    role="group"
-                  >
-                    <button
-                      type="button"
-                      className="py-2 px-4 text-sm font-medium text-gray-900 bg-red-700 rounded-l-full border border-gray-200 hover:bg-gray-100 hover:text-red-900"
-                      onClick={() => deleteDataFromNotion(page.id)}
+            {storePagesObj.map((page, i) =>
+              inputDate === "" ? (
+                <li className="py-3 " key={page.id}>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0"></div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-md font-medium text-white">
+                        <span className="text-lg text-bold text-red-900">
+                          Title:{"  "}
+                        </span>
+                        {page.properties.Name.title[0].plain_text}
+                      </p>
+                      <p className="text-md font-medium text-white ">
+                        <span className="text-md text-bold text-red-900">
+                          Date:{"  "}
+                        </span>
+                        {dayjs(page.properties.Date.date.start).format(
+                          "DD-MM-YYYY"
+                        )}
+                      </p>
+                    </div>
+                    <div
+                      className="inline-flex rounded-md shadow-sm"
+                      role="group"
                     >
-                      Delete
-                    </button>
+                      <button
+                        type="button"
+                        className="py-2 px-4 text-sm font-medium text-gray-900 bg-red-700 rounded-l-full border border-gray-200 hover:bg-gray-100 hover:text-red-900"
+                        onClick={() => deleteDataFromNotion(page.id)}
+                      >
+                        Delete
+                      </button>
 
-                    <button
-                      type="button"
-                      className="py-2 px-4 text-sm font-medium text-gray-900 bg-blue-700 rounded-r-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 "
-                      onClick={() => handleMoreInfo(i)}
-                    >
-                      Info
-                    </button>
+                      <button
+                        type="button"
+                        className="py-2 px-4 text-sm font-medium text-gray-900 bg-blue-700 rounded-r-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 "
+                        onClick={() => handleMoreInfo(i)}
+                      >
+                        Info
+                      </button>
+                    </div>
                   </div>
-                  {/* <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <button
-                      onClick={() => deleteDataFromNotion(page.id)}
-                      className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded-full"
-                    >
-                      Delete Note
-                    </button>
-                    <button
-                      onClick={() => handleMoreInfo(i)}
-                      className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded-full"
-                    >
-                      More Info
-                    </button>
-                  </div> */}
-                </div>
-              </li>
-            ))}
+                </li>
+              ) : (
+                dayjs(page.properties.Date.date.start).format("YYYY-MM-DD") ===
+                  inputDate && (
+                  <li className="py-3 " key={page.id}>
+                    <div className="flex items-center space-x-4">
+                      <div className="flex-shrink-0"></div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-md font-medium text-white">
+                          <span className="text-lg text-bold text-red-900">
+                            Title:{"  "}
+                          </span>
+                          {page.properties.Name.title[0].plain_text}
+                        </p>
+                        <p className="text-md font-medium text-white ">
+                          <span className="text-md text-bold text-red-900">
+                            Date:{"  "}
+                          </span>
+                          {dayjs(page.properties.Date.date.start).format(
+                            "DD-MM-YYYY"
+                          )}
+                        </p>
+                      </div>
+                      <div
+                        className="inline-flex rounded-md shadow-sm"
+                        role="group"
+                      >
+                        <button
+                          type="button"
+                          className="py-2 px-4 text-sm font-medium text-gray-900 bg-red-700 rounded-l-full border border-gray-200 hover:bg-gray-100 hover:text-red-900"
+                          onClick={() => deleteDataFromNotion(page.id)}
+                        >
+                          Delete
+                        </button>
+
+                        <button
+                          type="button"
+                          className="py-2 px-4 text-sm font-medium text-gray-900 bg-blue-700 rounded-r-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 "
+                          onClick={() => handleMoreInfo(i)}
+                        >
+                          Info
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                )
+              )
+            )}
           </ul>
         </div>
       </div>

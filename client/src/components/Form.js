@@ -6,6 +6,7 @@ import {
   BsFillPlayFill,
   BsSkipForwardFill,
   BsFillSkipEndFill,
+  BsFillCloudDownloadFill,
 } from "react-icons/bs";
 
 const Form = (props) => {
@@ -13,13 +14,6 @@ const Form = (props) => {
   const storeDataNote = useSelector((state) => state.pomodoro.data.note);
   const storeDataName = useSelector((state) => state.pomodoro.data.name);
   const storeTimerSpeed = useSelector((state) => state.pomodoro.timerSpeed);
-  //   const [userInput, setUserInput] = useState("");
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
-  //     props.getUserInput(userInput);
-  //     dispatch(pomodoroActions.inputdata({ userData: userInput }));
-  //     setUserInput("");
-  //   };
 
   return (
     <>
@@ -89,34 +83,10 @@ const Form = (props) => {
             />
           ) : null}
         </button>
+        {/* <button className=" hover:text-gray-900 text-white font-bold py-3 px-4 rounded text-md my-5">
+          <BsFillCloudDownloadFill size={50} />
+        </button> */}
       </div>
-      {/* <form onSubmit={handleSubmit}> */}
-      {/* <textarea
-        value={storeDataNote}
-        placeholder="Please write your notes here"
-        onChange={handleChange}
-        name="note"
-        className="
-          form-control
-          block
-          w-8/12
-          max-h-1/12
-          px-3
-          py-1.5
-          text-base
-          font-normal
-          text-gray-700
-          bg-white bg-clip-padding
-          border border-solid border-gray-300
-          rounded
-          transition
-          ease-in-out
-          mx-40 my-10
-          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-        "
-      /> */}
-      {/* <button type="submit">End Session Now</button> */}
-      {/* </form> */}
     </>
   );
 };

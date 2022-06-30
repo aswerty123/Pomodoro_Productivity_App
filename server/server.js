@@ -80,9 +80,11 @@ app.post("/submitDataToNotion", jsonParser, async (req, res) => {
         },
       },
     });
-    console.log(NOTION_DATE_ID);
+    console.log(response);
+    return res.json(response);
   } catch (error) {
     console.log(error);
+    return res.json(error);
   }
 });
 
@@ -104,8 +106,10 @@ app.post("/deleteDataFromNotion", jsonParser, async (req, res) => {
       archived: true,
     });
     console.log(response);
+    return res.json(response);
   } catch (error) {
     console.log(error);
+    return res.json(error);
   }
 });
 
@@ -117,13 +121,13 @@ app.post("/deleteDataFromNotion", jsonParser, async (req, res) => {
 //   console.log(response);
 // })();
 
-async function getDatabase() {
-  const response = await notion.databases.retrieve({
-    database_id: NOTION_DATABASE_ID,
-  });
-  console.log(response);
-}
-getDatabase();
+// async function getDatabase() {
+//   const response = await notion.databases.retrieve({
+//     database_id: NOTION_DATABASE_ID,
+//   });
+//   console.log(response);
+// }
+// getDatabase();
 
 app.listen(PORT, HOST, () => {
   console.log(`starting proxy ${HOST} : ${PORT}`);

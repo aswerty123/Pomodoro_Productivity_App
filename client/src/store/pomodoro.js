@@ -9,7 +9,14 @@ const pomodoroSlice = createSlice({
     isBreak: false,
     isSendingData: false,
     isModal: false,
-    modalData: { note: "", startTime: "", endTime: "", durationSecs: "" },
+    modalData: {
+      name: "",
+      note: "",
+      date: "",
+      startTime: "",
+      endTime: "",
+      durationSecs: "",
+    },
     pagesObj: [],
     refreshList: true,
     timerSpeed: 1000,
@@ -57,6 +64,9 @@ const pomodoroSlice = createSlice({
     },
     endBreak(state, action) {
       state.isBreak = false;
+
+      state.displayMinutes = state.setDuration;
+      state.displaySeconds = 0;
 
       state.isSession = true;
       state.isPause = true;
@@ -129,17 +139,36 @@ const pomodoroSlice = createSlice({
     },
 
     //================================ display modal
-    displayErrorModal(state, action) {
-      // console.log(
-      //   state.pagesObj[action.payload.index].properties.Notes.rich_text[0]
-      //     .plain_text
-      // );
+
+    displayMoreInfoModal(state, action) {
+      state.modalData.name =
+        state.pagesObj[
+          action.payload.index
+        ].properties.Name.title[0].plain_text;
       state.modalData.note =
         state.pagesObj[
           action.payload.index
         ].properties.Notes.rich_text[0].plain_text;
+
+      state.modalData.date = dayjs(
+        state.pagesObj[action.payload.index].properties.Date.date.start
+      ).format("DD-MM-YYYY");
+
+      state.modalData.startTime = dayjs(
+        state.pagesObj[action.payload.index].properties.Date.date.start
+      ).format("HH:mm:ss");
+
+      state.modalData.endTime = dayjs(
+        state.pagesObj[action.payload.index].properties.Date.date.end
+      ).format("HH:mm:ss");
+
+      state.modalData.durationSecs =
+        state.pagesObj[action.payload.index].properties.Duration_in_Secs.number;
+
       state.isModal = true;
     },
+
+    displayStatus(State, action) {},
 
     closeModal(state) {
       state.isModal = false;

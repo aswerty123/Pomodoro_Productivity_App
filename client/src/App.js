@@ -7,13 +7,23 @@ import { useSelector } from "react-redux";
 
 function App() {
   const storeIsSession = useSelector((state) => state.pomodoro.isSession);
+  const storeDisplayMinutes = useSelector(
+    (state) => state.pomodoro.displayMinutes
+  );
+  const storeDisplaySeconds = useSelector(
+    (state) => state.pomodoro.displaySeconds
+  );
   const storeIsBreak = useSelector((state) => state.pomodoro.isBreak);
   const storeIsPause = useSelector((state) => state.pomodoro.isPause);
 
   return (
-    <div className={storeIsSession ? "bg-red-300" : "bg-blue-300"}>
+    <div
+      className={
+        storeIsSession ? "bg-red-300 h-screen" : "bg-blue-300 h-screen"
+      }
+    >
       <div className="flex">
-        <NavBar />
+        {storeIsSession && storeDisplayMinutes < 25 ? null : <NavBar />}
         <div className="flex-auto">
           <Routes>
             <Route path="/" element={<Navigate replace to="/dashboard" />} />
