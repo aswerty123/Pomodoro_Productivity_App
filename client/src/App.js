@@ -18,9 +18,7 @@ function App() {
 
   return (
     <div
-      className={
-        storeIsSession ? "bg-red-300 h-screen" : "bg-blue-300 h-screen"
-      }
+      className={storeIsSession ? "bg-red-300 h-full" : "bg-blue-300 h-full"}
     >
       <div className="flex">
         {storeIsSession && storeDisplayMinutes < 25 ? null : <NavBar />}

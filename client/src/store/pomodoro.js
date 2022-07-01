@@ -25,6 +25,9 @@ const pomodoroSlice = createSlice({
     displaySeconds: 0,
     setDuration: 25,
     setBreak: 5,
+
+    inputDate: "",
+
     data: {
       name: "",
       note: "",
@@ -176,6 +179,12 @@ const pomodoroSlice = createSlice({
     //=================================== Set Speed
     setSpeed(state, action) {
       state.timerSpeed = action.payload.speed;
+    },
+
+    //=================================== Change input date
+
+    changeInputDate(state, action) {
+      state.inputDate = action.payload.inputDate;
     },
   },
 });

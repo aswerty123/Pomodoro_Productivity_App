@@ -14,8 +14,6 @@ const NOTION_NAME_ID = "title";
 const NOTION_DATE_ID = "M~LB";
 const NOTION_DURATION_IN_SECS_ID = "fAAW";
 const NOTION_NOTES_ID = "d%7BOb";
-const NOTION_END_TIME_ID = "cU%3CN";
-const NOTION_START_TIME_ID = "uxgG";
 
 //===================================
 
@@ -27,15 +25,6 @@ const notion = new Client({ auth: NOTION_API_KEY });
 
 app.post("/submitDataToNotion", jsonParser, async (req, res) => {
   //req.body
-  /*
-    {
-        name:"",
-       note: "",
-      startTime: "",
-      endTime: "",
-      durationSecs: 0, 
-    }
-    */
   const name = req.body.name;
   const note = req.body.note;
   const startTime = req.body.startTime;
@@ -113,14 +102,7 @@ app.post("/deleteDataFromNotion", jsonParser, async (req, res) => {
   }
 });
 
-// app.get(async () => {
-//   const blockId = "9bc30ad4-9373-46a5-84ab-0a7845ee52e6";
-//   const response = await notion.blocks.delete({
-//     block_id: blockId,
-//   });
-//   console.log(response);
-// })();
-
+//=========================== Get Notion Database
 // async function getDatabase() {
 //   const response = await notion.databases.retrieve({
 //     database_id: NOTION_DATABASE_ID,
@@ -128,6 +110,7 @@ app.post("/deleteDataFromNotion", jsonParser, async (req, res) => {
 //   console.log(response);
 // }
 // getDatabase();
+//=================================================
 
 app.listen(PORT, HOST, () => {
   console.log(`starting proxy ${HOST} : ${PORT}`);

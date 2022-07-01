@@ -11,11 +11,8 @@ const DisplayList = (props) => {
     (state) => state.pomodoro.modalData.note
   );
   const storeIsModal = useSelector((state) => state.pomodoro.isModal);
-  // const name = data.results[0].properties.Name.title[0].plain_text;
-  // const note = data.results[0].properties.Notes.rich_text[0].plain_text;
-  // const date =0;
-  // const duration =0;
-  const [inputDate, setInputDate] = useState("");
+  const storeInputDate = useSelector((state) => state.pomodoro.inputDate);
+
   const [inputSum, setInputSum] = useState("");
 
   const handleModalOkay = () => {
@@ -56,14 +53,15 @@ const DisplayList = (props) => {
   };
 
   const handleDateInput = (event) => {
-    // console.log(event.target.value);
-    setInputDate(event.target.value);
+    dispatch(
+      pomodoroActions.changeInputDate({ inputDate: event.target.value })
+    );
   };
 
   //calculate the sum of duration
 
   useEffect(() => {
-    if (inputDate === "") {
+    if (storeInputDate === "") {
       let sum = 0;
       storePagesObj.map((page, i) => {
         // console.log(page.properties.Duration_in_Secs.number);
@@ -75,14 +73,14 @@ const DisplayList = (props) => {
       storePagesObj.map((page, i) => {
         if (
           dayjs(page.properties.Date.date.start).format("YYYY-MM-DD") ===
-          inputDate
+          storeInputDate
         ) {
           sum += page.properties.Duration_in_Secs.number;
         }
       });
       setInputSum(sum);
     }
-  }, [inputDate]);
+  }, [storeInputDate]);
 
   return (
     <>
@@ -98,7 +96,7 @@ const DisplayList = (props) => {
         <input type="date" onChange={handleDateInput} className="m-5" />
         <div
           className={
-            inputDate === ""
+            storeInputDate === ""
               ? "bg-blue-500 text-white font-bold py-2 px-4 rounded"
               : inputSum / 60 / 60 > 5
               ? "bg-green-500 text-white font-bold py-2 px-4 rounded"
@@ -128,7 +126,7 @@ const DisplayList = (props) => {
         <div>
           <ul className="divide-y divide-gray-200 ">
             {storePagesObj.map((page, i) =>
-              inputDate === "" ? (
+              storeInputDate === "" ? (
                 <li className="py-3 " key={page.id}>
                   <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0"></div>
@@ -172,7 +170,7 @@ const DisplayList = (props) => {
                 </li>
               ) : (
                 dayjs(page.properties.Date.date.start).format("YYYY-MM-DD") ===
-                  inputDate && (
+                  storeInputDate && (
                   <li className="py-3 " key={page.id}>
                     <div className="flex items-center space-x-4">
                       <div className="flex-shrink-0"></div>
