@@ -2,4 +2,4 @@
 
 GA SEI Project 2
 
-![alt text](Drawing 2022-07-01 06.25.excalidraw.png)
+![image](https://user-images.githubusercontent.com/44399805/176833046-3f5f201f-e04a-4417-acad-7d50f01586e3.png)
