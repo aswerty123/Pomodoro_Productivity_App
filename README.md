@@ -82,8 +82,10 @@ Notion Api
  
  send data to notion database 
  - https://www.youtube.com/watch?v=WbekTHVISh0
+ 
  retrieve data from notion database
  - https://www.youtube.com/watch?v=zVfVLBjQuSA&t=675s
+ 
  send page id to 'delete' page
  - https://developers.notion.com/reference/patch-page
 
