@@ -65,7 +65,7 @@ Fourth Step:
 Trying to send data from the app to notion database. watched youtube videos to see how they send data from react app to notion database and follow their codes. seems like the cooper codes used the express js post method to connect the local host 4000 server to the notion database and send(fetch with method post) the data using the localhost:4000 so i follow suit. Need to use the notion.pages.create() function to create a new page in notion.
 
 Fifth Step:
-trying to get the data from the app from the notion database. I used the fetch normal method to get the data from the nootion database after using the get method in express to connect the local host 4000 server to the notion database. managed to obtain the object which is then stored in a state call pageObj as list of object within an array. Need to use the notion.databases.query() to get the object that contains all the information in the notion database.
+trying to get the data from the app from the notion database. I used the fetch normal method to get the data from the nootion database after using the get method in express to connect the local host 4000 server to the notion database. managed to obtain the object which is then stored in a state call pageObj as list of object within an array. Need to use the notion.databases.query() to get the object that contains all the information in the notion database. Then I used the ErrorModal code to make it such that each list of session can display more information when the info button is clicked. I used tailwind css to style the modal.
 
 Six Step:
 Next is too delete the object froom the list of session displayed in the dashboard. Had to read the notion documentation properly and google to figure out that you need to change the archive property of an individual page to true to remove page so the page id is required. had to pass the page id to the delete button when mapping the list of session. Need to use the notion.pages.update() function to change page archive property to true. Added
@@ -86,11 +86,6 @@ I draw things out to see how the logic/data flows which helps me to see the over
 ## APIs Used
 
 Notion Api
-
----
-
-## Acknowledgments
-
 
 ---
 
