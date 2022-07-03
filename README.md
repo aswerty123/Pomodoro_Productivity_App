@@ -87,8 +87,6 @@ I draw things out to see how the logic/data flows which helps me to see the over
 
 Notion Api
 
----
-
  ## References
  
  send data to notion database 
